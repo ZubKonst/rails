@@ -297,7 +297,8 @@ module ActiveRecord
               ftype = 23
             end
 
-            @mapping.fetch(ftype) { |oid| yield oid, fmod }
+            oid_type = @mapping[ftype]
+            oid_type ? oid_type : yield(ftype, fmod)
           end
         end
 
