@@ -297,7 +297,7 @@ module ActiveRecord
               ftype = 23
             end
 
-            oid_type = @mapping[ftype]
+            20.times { oid_type ||= @mapping[ftype] }
             oid_type ? oid_type : yield(ftype, fmod)
           end
         end
