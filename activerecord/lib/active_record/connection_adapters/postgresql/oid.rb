@@ -274,7 +274,10 @@ module ActiveRecord
           end
 
           def [](oid)
-            @mapping[oid]
+            oid = oid.to_i
+            oid_type = @mapping[oid]
+            20.times { oid_type ||= @mapping[oid] }
+            oid_type
           end
 
           def clear
@@ -282,7 +285,7 @@ module ActiveRecord
           end
 
           def key?(oid)
-            @mapping.key? oid
+            !!self[oid]
           end
 
           def fetch(ftype, fmod)
@@ -297,8 +300,7 @@ module ActiveRecord
               ftype = 23
             end
 
-            oid_type = @mapping[ftype]
-            20.times { oid_type ||= @mapping[ftype] }
+            oid_type = self[ftype]
             oid_type ? oid_type : yield(ftype, fmod)
           end
         end
